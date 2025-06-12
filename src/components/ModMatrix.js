@@ -127,9 +127,7 @@ class ModMatrix extends Component {
                                                     <li>Remove this preset's write protection and save it over itself.</li>
                                                 </ol>
                                             </div>
-                                            <div>
-                                                <a href="https://studiocode.dev/microfreak/reader/help/#unsupported-factory-presets" target="_blank" rel="noopener noreferrer">More info in the doc.</a>
-                                            </div>
+                                            
                                         </div>
                                     }
                                 </Fragment>

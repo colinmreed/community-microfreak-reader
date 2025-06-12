@@ -21,7 +21,6 @@ import {
 } from "../model";
 import {MSG_DATA, MSG_NAME, portById} from "../utils/midi";
 import {h, hs} from "../utils/hexstring";
-import {savePreferences} from "../utils/preferences";
 import {compressToEncodedURIComponent, decompressFromEncodedURIComponent} from "lz-string";
 import axios from "axios";
 import {getParameterByName} from "../utils/sharing";
@@ -29,18 +28,18 @@ import {getParameterByName} from "../utils/sharing";
 class State {
 
     // The number of the currently displayed preset
-    preset_number = 0;  // 0..255 display as 1..256
+    preset_number = 0;  // 0..511 display as 1..512
 
     // input field in preset selector
     preset_number_string = '1';
 
     // The preset number used in MIDI
-    preset_number_comm = null;      // 0..255 display as 1..256
+    preset_number_comm = null;      // 0..511 display as 1..512
 
     // All the presets
     // This is an array of {name: String; data: []}
     // We prefill the array with null value to avoid OutOfBound exceptions when accessing the array with MobX
-    presets = new Array(256).fill(null);   // index 0..255
+    presets = new Array(512).fill(null);   // index 0..511
 
     // filename = null;    // presets file
 
@@ -221,44 +220,42 @@ class State {
     }
 
     /**
-     * If string, range is 1..256
-     * If number, range is 0..255
+     * If string, range is 1..512
+     * If number, range is 0..511
      * @param number
      */
-    setPresetNumber(number) {
+setPresetNumber(number) {
+    if (number === undefined || number === null) return;
+    if ((typeof number !== 'string') && (typeof number !== 'number')) return;
 
-        if (number === undefined || number === null) return;
-        if ((typeof number !== 'string') && (typeof number !== 'number')) return;
+    let num;
+    let s = null;
 
-        let num;
-        let s = null;
-
-        if (typeof number === 'string') {
-            num = parseInt(number, 10);
-        } else {
-            num = number + 1;       // displayed value is 1..256
-        }
-
-        if (isNaN(num)) {
-            num = 1;
-        } else if (num > 256) {
-            s = '256';
-            num = 256;
-        } else if (num < 1) {
-            s = '1';
-            num = 1;
-        } else {
-            s = num.toString(10);
-        }
-
-        if (s === null) {
-            this.preset_number_string = '';
-        } else {
-            this.preset_number_string = s;
-            this.preset_number = num - 1;
-            // savePreferences({preset:s});
-        }
+    if (typeof number === 'string') {
+        num = parseInt(number, 10);
+    } else {
+        num = number + 1;       // displayed value is 1..512
     }
+
+    if (isNaN(num)) {
+        num = 1;
+    } else if (num > 512) {        // <- CHANGED
+        s = '512';                 // <- CHANGED
+        num = 512;                 // <- CHANGED
+    } else if (num < 1) {
+        s = '1';
+        num = 1;
+    } else {
+        s = num.toString(10);
+    }
+
+    if (s === null) {
+        this.preset_number_string = '';
+    } else {
+        this.preset_number_string = s;
+        this.preset_number = num - 1;
+    }
+}
 
     addPort(port) {
         // eslint-disable-next-line
@@ -558,10 +555,12 @@ class State {
     }
 */
 
-    presetName(number) {  //TODO: change method name
+presetName(number) {  //TODO: change method name
         if (this.presets.length && (number < this.presets.length) && this.presets[number]) {
             // console.log("preset name", this.presets[number]);
-            return this.presets[number].name;
+            const name = this.presets[number].name;
+            // Show "Init" presets as blank since they are empty slots users can save to
+            return (name === "Init") ? "" : name;
         } else {
             return null;
         }
@@ -571,6 +570,11 @@ class State {
         if (this.presets.length && (number < this.presets.length) && this.presets[number]) {
             // && this.presets[number].hasOwnProperty("cat")
             // console.log("preset cat", this.presets[number]);
+            const name = this.presets[number].name;
+            // Show "Init" presets category as blank since they are empty slots users can save to
+            if (name === "Init") {
+                return "";
+            }
             if (this.presets[number].cat < CATEGORY.length)
                 return CATEGORY[this.presets[number].cat];
             else

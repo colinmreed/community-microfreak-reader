@@ -63,9 +63,9 @@ import {
 import PresetsGrid from "./components/PresetsGrid";
 import WindowTitle from "./components/WindowTitle";
 import ControlRateSync from "./components/ControlRateSync";
-import SharePreset from "./components/SharePreset";
 import {MidiSupportWarning} from "./components/MidiSupportWarning";
 import {WarningBanner} from "./components/WarningBanner";
+import { HelpModal } from './components/HelpModal';
 
 const MIDI_MSG_TYPE = "sysex";
 
@@ -74,10 +74,11 @@ const LAYOUT_1_ROW = 'layout-1-row';
 
 class App extends Component {
 
-    state = {
-        theme: DEFAULT_THEME,
-        presets_pos: DEFAULT_PRESETS_POS
-    };
+	state = {
+    	theme: DEFAULT_THEME,
+    	presets_pos: DEFAULT_PRESETS_POS,
+    	showHelpModal: false  
+};
 
     selectTheme = (e) => {
         this.setState({theme: e.target.value});
@@ -88,7 +89,9 @@ class App extends Component {
         this.setState({presets_pos: e.target.value});
         savePreferences({presets_pos: e.target.value});
     };
-
+	toggleHelpModal = () => {
+    	this.setState({ showHelpModal: !this.state.showHelpModal });
+	};
     componentDidMount(){
         const s = loadPreferences();
         this.setState({
@@ -119,7 +122,6 @@ class App extends Component {
                         <div className="title">
                             MicroFreak&nbsp;<PresetName />
                         </div>
-                        <SharePreset />
                         <div className="header-options">
                             <select value={this.state.theme} onChange={this.selectTheme}>
                                 <option value="light">Light theme</option>
@@ -239,19 +241,24 @@ class App extends Component {
                                 <div>
                                     No guarantee is given as to the accuracy of the displayed data.
                                 </div>
-                                <div>
-                                    <a href="https://studiocode.dev/applications/microfreak-reader/" className="link" target="_blank" rel="noopener noreferrer">Read the doc</a>.
-                                    Report bugs and issues <a href="https://github.com/francoisgeorgy/microfreak-reader/issues" className="link" target="_blank" rel="noopener noreferrer">here</a>.
-                                </div>
+                               <div>
+   									 <button className="link-button" onClick={this.toggleHelpModal}>Read the quick guide</button>.
+   									 Report bugs and issues <a href="https://github.com/colinmreed/community-microfreak-reader/issues" className="link" target="_blank" rel="noopener noreferrer">here</a>.
+   									 <a href="https://coff.ee/colinmreed" className="link coffee-link" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>.
+								</div>
                                 <div className="copyright">
-                                    v{process.env.REACT_APP_VERSION} &copy; <a href="https://studiocode.dev" target="_blank" rel="noopener noreferrer">studiocode.dev</a>
-                                </div>
+    								Community Edition v1.0.0
+								</div>
                             </div>
                         </div>
                         </div>
                         {this.state.presets_pos !== 'presets-grid-none' && <PresetsGrid position={this.state.presets_pos} />}
                     </div>
                 </div>
+               				 <HelpModal 
+  								  isOpen={this.state.showHelpModal} 
+   								  onClose={this.toggleHelpModal} 
+							 />
             </Provider>
         );
     }

@@ -6,7 +6,7 @@ export class WarningBanner extends Component {
     render() {
         return (
             <div className="warning-top">
-                This version does not yet support firmware v3. The support is still incomplete for firmware v2. Updates coming soon...
+                Updated community version: Now supports 512 presets loading & saving. Parameters from firmware v1 work, with v2 partially supported. Please contact if you'd like to help add support for firmware versions 3-5.
             </div>
         );
     }

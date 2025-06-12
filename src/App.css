@@ -10,6 +10,26 @@
     max-width: 1200px;
 }
 
+.link-button {
+    background: none;
+    border: none;
+    color: var(--knob-text);
+    text-decoration: underline;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 300;
+    padding: 0;
+}
+
+.link-button:hover {
+    color: var(--header-select-text);
+}
+
+.coffee-link {
+    margin-left: 15px;
+}
+
 .presets-grid-right .App {
     display: flex;
     flex-direction: row;

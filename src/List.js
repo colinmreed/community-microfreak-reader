@@ -14,10 +14,32 @@ import {readFile} from "./utils/files";
 const PACKS = {
     "Factory_1-1.json": 'Factory 1.1',
     "Factory_2-0.json": 'Factory 2.0',
+    "Factory_3.json": 'Factory 3',
+    "Factory_4.json": 'Factory 4',
+    "Factory_5.json": 'Factory 5',
+    "Abstract_Freak.json": 'Abstract Freak',
+    "Ambient_Peaks.json": 'Ambient Peaks',
+    "Arp_Monster.json": 'Arp Monster',
+    "Back_To_The_'80s.json": "Back To The '80s",
+    "Blush_Response.json": 'Blush Response',
+    "Clockwork_Nocturnal.json": 'Clockwork Nocturnal',
+    "Clouds_and_Beyond.json": 'Clouds and Beyond',
+    "Conforce_Signature.json": 'Conforce Signature',
+    "Future_Rave.json": 'Future Rave',
+    "Hypnoscillator.json": 'Hypnoscillator',
+    "Immersive_Melodies.json": 'Immersive Melodies',
     "Naughty_Bass.json": 'Naughty Bass',
+    "Nhar_Signature.json": 'Nhar Signature',
+    "Nostalgia_and_Reminiscence.json": 'Nostalgia and Reminiscence',
+    "Ocular_Semblance.json": 'Ocular Semblance',
+    "Oddiction.json": 'Oddiction',
     "Plaisir_Pads.json": 'Plaisir Pads',
+    "Solid_Perc.json": 'Solid Perc',
     "Tech_Loop.json": 'Tech Loop',
-    "Arp_Monster.json": 'Arp Monster'
+    "Tokyo_88.json": 'Tokyo 88',
+    "Trancentral.json": 'Trancentral',
+    "Vast_Lands.json": 'Vast Lands',
+    "Voltage_Forms.json": 'Voltage Forms'
 };
 
 class List extends Component {
@@ -56,15 +78,30 @@ class List extends Component {
         }
     };
 
-    onFileSelection = async e => {
+onFileSelection = async e => {
         if (global.dev) console.log("onFileSelection");
+        
+        // Check if a file was actually selected (user didn't cancel)
+        if (!e.target.files || e.target.files.length === 0) {
+            if (global.dev) console.log("No file selected (user cancelled)");
+            return;
+        }
+        
         const f = e.target.files[0];
         const data = await readFile(f);
+        
         if (data) {
             state.presets = data;
-            // state.filename = f.name;
+            state.checkAllPresets(); // Important: check presets after loading
             this.setState({pack: "", filename: f.name});
-        }
+        } else {
+			console.error("Failed to load file:", f && f.name ? f.name : "unknown");        }
+        
+        // Reset the file input so the same file can be selected again if needed
+       // Check if target still exists before trying to reset it
+if (e.target && e.target.value !== undefined) {
+    e.target.value = '';
+}
     };
 
     importFromFile = () => {
@@ -94,15 +131,37 @@ class List extends Component {
                             {this.state.filename && <span>: {this.state.filename}</span>}
                             {/*<div className="lw-pack">{this.state.pack}</div>*/}
                         </div>
-                        <select className="preloader" onChange={this.loadData} value={this.state.pack}>
-                            <option value="">Select an official pack...</option>
-                            <option value="Factory_1-1.json">Factory 1.1</option>
-                            <option value="Factory_2-0.json">Factory 2.0</option>
-                            <option value="Naughty_Bass.json">Naughty Bass</option>
-                            <option value="Plaisir_Pads.json">Plaisir Pads</option>
-                            <option value="Tech_Loop.json">Tech Loop</option>
-                            <option value="Arp_Monster.json">Arp Monster</option>
-                        </select>
+                 	<select className="preloader" onChange={this.loadData} value={this.state.pack}>
+    					<option value="">Select an official pack...</option>
+    					<option value="Factory_1-1.json">Factory 1.1</option>
+   					 	<option value="Factory_2-0.json">Factory 2.0</option>
+    					<option value="Factory_3.json">Factory 3</option>
+    					<option value="Factory_4.json">Factory 4</option>
+    					<option value="Factory_5.json">Factory 5</option>
+    					<option value="Abstract_Freak.json">Abstract Freak</option>
+    					<option value="Ambient_Peaks.json">Ambient Peaks</option>
+    					<option value="Arp_Monster.json">Arp Monster</option>
+    					<option value="Back_To_The_'80s.json">Back To The '80s</option>
+    					<option value="Blush_Response.json">Blush Response</option>
+    					<option value="Clockwork_Nocturnal.json">Clockwork Nocturnal</option>
+    					<option value="Clouds_and_Beyond.json">Clouds and Beyond</option>
+    					<option value="Conforce_Signature.json">Conforce Signature</option>
+    					<option value="Future_Rave.json">Future Rave</option>
+    					<option value="Hypnoscillator.json">Hypnoscillator</option>
+    					<option value="Immersive_Melodies.json">Immersive Melodies</option>
+    					<option value="Naughty_Bass.json">Naughty Bass</option>
+    					<option value="Nhar_Signature.json">Nhar Signature</option>
+    					<option value="Nostalgia_and_Reminiscence.json">Nostalgia and Reminiscence</option>
+    					<option value="Ocular_Semblance.json">Ocular Semblance</option>
+    					<option value="Oddiction.json">Oddiction</option>
+    					<option value="Plaisir_Pads.json">Plaisir Pads</option>
+    					<option value="Solid_Perc.json">Solid Perc</option>
+    					<option value="Tech_Loop.json">Tech Loop</option>
+    					<option value="Tokyo_88.json">Tokyo 88</option>
+    					<option value="Trancentral.json">Trancentral</option>
+    					<option value="Vast_Lands.json">Vast Lands</option>
+    					<option value="Voltage_Forms.json">Voltage Forms</option>
+    				</select>
                         <input ref={this.inputOpenFileRef} type="file" style={{display:"none"}}  onChange={this.onFileSelection} />
                         <button className="bt-file" type="button" onClick={this.importFromFile}>Or load a file...</button>
                         <div className="header-options">

@@ -79,6 +79,15 @@ button.abort {
     grid-template-columns: repeat(16, auto);
     justify-content: start;
     font-size: 0.85rem;
+    max-height: 600px;
+    overflow-y: auto;
+    z-index: 2000;
+}
+
+.direct-access {
+    max-height: 600px;
+    overflow-y: auto;
+    grid-template-columns: repeat(32, auto) !important;
 }
 
 .seq-access > div,

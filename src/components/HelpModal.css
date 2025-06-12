@@ -1,0 +1,135 @@
+/* HelpModal.css */
+.help-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.help-modal-content {
+    background: var(--main-bg);
+    color: var(--text);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: var(--input-border);
+}
+
+.help-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: var(--input-border);
+    background: var(--header-bg);
+}
+
+.help-modal-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--header-text);
+}
+
+.help-close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--text);
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.help-close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.help-modal-body {
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.help-modal-body section {
+    margin-bottom: 25px;
+}
+
+.help-modal-body h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--knob-text);
+    border-bottom: 1px solid var(--preset-border);
+    padding-bottom: 5px;
+}
+
+.help-modal-body ul,
+.help-modal-body ol {
+    margin: 8px 0;
+    padding-left: 25px;
+}
+
+.help-modal-body li {
+    margin-bottom: 6px;
+    font-weight: 300;
+}
+
+.help-modal-body strong {
+    font-weight: 400;
+    color: var(--header-select-text);
+}
+
+.help-modal-body p {
+    margin: 8px 0;
+    font-weight: 300;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .help-modal-content {
+        width: 95%;
+        max-height: 85vh;
+    }
+    
+    .help-modal-header {
+        padding: 15px;
+    }
+    
+    .help-modal-body {
+        padding: 15px;
+    }
+    
+    .help-modal-header h2 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Add this to HelpModal.css */
+.help-modal-body a {
+    color: var(--knob-text);
+    text-decoration: underline;
+    font-weight: 300;
+}
+
+.help-modal-body a:hover {
+    color: var(--header-select-text);
+}
+
+.help-modal-body a:visited {
+    color: var(--knob-text);
+}

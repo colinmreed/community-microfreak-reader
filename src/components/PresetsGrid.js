@@ -106,7 +106,7 @@ class PresetsGrid extends Component {
 
     prev = (d = 1) => {
         const n = this.props.state.preset_number - d;
-        this.props.state.setPresetNumber(n < 0 ? 255 : n);
+        this.props.state.setPresetNumber(n < 0 ? 511 : n);
         if (this.props.state.send_pc) {
             sendPC(this.props.state.preset_number);
         }
@@ -114,7 +114,7 @@ class PresetsGrid extends Component {
 
     next = (d = 1) => {
         const n = this.props.state.preset_number + d;
-        this.props.state.setPresetNumber(n > 255 ? 0 : n);
+        this.props.state.setPresetNumber(n > 511 ? 0 : n);
         if (this.props.state.send_pc) {
             sendPC(this.props.state.preset_number);
         }
@@ -132,7 +132,7 @@ class PresetsGrid extends Component {
         const S = this.props.state;
 
         const pc = [];
-        for (let i=0; i<256; i++) {
+        for (let i=0; i<512; i++) {
 
             let classname = i === S.preset_number ? 'sel' : '';
             if (S.presets.length && (S.presets.length > i && S.presets[i])) {
